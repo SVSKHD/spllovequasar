@@ -38,6 +38,7 @@ export default defineConfigWithVueTs(
   {
     files: ['**/*.ts', '**/*.vue'],
     rules: {
+      "vue/multi-word-component-names":'off',
       '@typescript-eslint/consistent-type-imports': [
         'error',
         { prefer: 'type-imports' }

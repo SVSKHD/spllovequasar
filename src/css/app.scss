@@ -1,1 +1,71 @@
-// app global css in SCSS form
+/* Import Google Fonts once */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Playwrite+HU:wght@100..400&display=swap');
+
+/* Global font variables */
+:root {
+  --font-pacifico: "Pacifico", cursive;
+  --font-playwrite: "Playwrite HU", sans-serif;
+  --love-gradient: linear-gradient(90deg, #ff4d6d, #ff7a9e, #b5179e, #7b2cbf);
+  --love-accent: #ff4d6d;
+}
+
+
+
+
+/* Optionally set a base font */
+.auth-card-title{
+    font-family: var(--font-playwrite);
+}
+
+.auth-card-text{
+    font-family: var(--font-playwrite);
+}
+
+.auth-btn-text{
+    font-family: var(--font-playwrite);
+    size: 16px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.auth-input-btn-text{
+    font-family: var(--font-playwrite);
+    size:10px;
+    font-weight: bold;
+    font-style: itlaic;
+}
+
+
+
+
+
+// timeline
+/* Default: inherit normal text color */
+.love-gradient-hover {
+  color: currentColor; /* keeps theme color */
+  transition: background-position 300ms ease, color 200ms ease;
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+}
+
+/* Hover: show gradient as “font color” */
+.love-gradient-hover:hover {
+  background-image: var(--love-gradient);
+  -webkit-background-clip: text;
+  font-weight: bold;
+  font-size: 5rem;
+  background-clip: text;
+  color: transparent;                /* so only gradient shows */
+  -webkit-text-fill-color: transparent; /* needed for WebKit */
+  background-position: 100% 50%;
+}
+
+/* Fallback for browsers that don't support text clipping */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .love-gradient-hover:hover {
+    color: var(--love-accent); /* solid hover color */
+  }
+}
+
+/* Keep bullets unaffected */
+.description-list li::marker { color: currentColor; }

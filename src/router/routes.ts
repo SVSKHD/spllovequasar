@@ -1,17 +1,34 @@
-import type { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw } from "vue-router";
+
+//routes
+import Index from "../pages/IndexPage.vue";
+import bDaylayout from "src/layouts/bDaylayout.vue";
+//pages
+import Hithesh from "../pages/hithesh.vue";
+import spoorthy from "src/pages/spoorthy.vue";
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    name: "home",
+    component: Index,
+    path: "/",
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
   {
-    path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    name: "Layout",
+    path: "/layout",
+    component: bDaylayout,
+    children: [
+      {
+        name: "hithesh",
+        path: "/hithesh",
+        component: Hithesh,
+      },
+      {
+        name: "Spoorthy",
+        path: "/spoorthy",
+        component: spoorthy,
+      },
+    ],
   },
 ];
 
