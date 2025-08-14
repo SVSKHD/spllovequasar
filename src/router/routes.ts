@@ -7,6 +7,10 @@ import bDaylayout from "src/layouts/bDaylayout.vue";
 import Hithesh from "../pages/hithesh.vue";
 import spoorthy from "src/pages/spoorthy.vue";
 
+
+
+
+
 const routes: RouteRecordRaw[] = [
   {
     name: "home",
@@ -31,5 +35,8 @@ const routes: RouteRecordRaw[] = [
     ],
   },
 ];
+
+
+
 
 export default routes;

@@ -1,0 +1,28 @@
+      <q-toolbar>
+  <div class="glass-tabs-wrap">
+
+    <q-card class="glass-card">
+      <q-tabs v-model="inner" class="glass-tabs" dense :active-color="activeColor"
+              :indicator-color="indicatorColor" align="justify" narrow-indicator>
+        <q-tab v-for="t in tabs" :key="t.name" :name="t.name" :icon="t.icon">
+          <q-tooltip>{{ t.name }}</q-tooltip>
+          <q-space />
+        </q-tab>
+      </q-tabs>
+
+      <!-- Scrollable content -->
+      <q-tab-panels v-model="inner" animated class="glass-panels">
+        <q-tab-panel v-for="t in tabs" :key="t.name" :name="t.name" class="panel-slot">
+          <slot :name="t.name" />
+        </q-tab-panel>
+      </q-tab-panels>
+
+      <!-- Footer pinned at the bottom -->
+      <q-separator class="glass-sep" />
+      <q-card-actions class="glass-footer">
+        
+      </q-card-actions>
+    </q-card>
+    
+  </div>
+  </q-toolbar>

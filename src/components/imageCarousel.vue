@@ -1,110 +1,272 @@
+<!-- src/components/ImageCarousel.vue -->
 <template>
-    <div class="q-pa-md">
-        <q-carousel v-model="slide" arrows animated infinite :height="height" class="no-crop-carousel">
-            <q-carousel-slide name="first" class="slide">
-                <div class="media-box">
-                    <img class="media" src="https://cdn.quasar.dev/img/mountains.jpg" alt="First stop" />
-                </div>
-                <div class="absolute-bottom custom-caption">
-                    <div class="text-h2">First stop</div>
-                    <div class="text-subtitle1">Mountains</div>
-                </div>
-            </q-carousel-slide>
+  <div class="q-pa-md">
+    <q-carousel
+      v-model="active"
+      v-model:fullscreen="fullscreen"
+      animated
+      infinite
+      :height="height"
+      class="nc-carousel"
+    >
+      <q-carousel-slide
+        v-for="(s, i) in normalizedSlides"
+        :key="s.name"
+        :name="s.name"
+        class="nc-slide"
+      >
+        <!-- Image stage (centered; no crop) -->
+        <div class="nc-stage" tabindex="0" aria-label="Image slide">
+          <img
+            class="nc-media"
+            :class="fit"
+            :src="s.image"
+            :alt="s.name || `slide-${i+1}`"
+            loading="lazy"
+          />
+        </div>
 
-            <q-carousel-slide name="second" class="slide">
-                <div class="media-box">
-                    <img class="media" src="https://cdn.quasar.dev/img/parallax1.jpg" alt="Second stop" />
-                </div>
-                <div class="absolute-bottom custom-caption">
-                    <div class="text-h2">Second stop</div>
-                    <div class="text-subtitle1">Famous City</div>
-                </div>
-            </q-carousel-slide>
+        <!-- Edge vignette -->
+        <div v-if="showVignette" class="nc-vignette"></div>
 
-            <q-carousel-slide name="third" class="slide">
-                <div class="media-box">
-                    <img class="media" src="https://cdn.quasar.dev/img/parallax2.jpg" alt="Third stop" />
-                </div>
-                <div class="absolute-bottom custom-caption">
-                    <div class="text-h2">Third stop</div>
-                    <div class="text-subtitle1">Famous Bridge</div>
-                </div>
-            </q-carousel-slide>
-        </q-carousel>
-    </div>
+        <!-- Left | center | right grid; text lives only in side columns -->
+        <div class="nc-hero" :style="{ '--side': sideWidth }">
+          <div class="nc-left">
+            <h2 class="nc-title">{{ s.name }}</h2>
+          </div>
+          <div class="nc-right" v-if="s.caption">
+            <p class="nc-desc">{{ s.caption }}</p>
+          </div>
+        </div>
+      </q-carousel-slide>
+
+      <!-- Custom corner arrows + fullscreen -->
+      <template #control>
+        <div class="nav-corners">
+          <button
+            class="nav-btn nav-left"
+            aria-label="Previous"
+            @click.stop="go(-1)"
+          >
+            <q-icon name="chevron_left" size="22px" />
+          </button>
+
+          <button
+            class="nav-btn nav-right"
+            aria-label="Next"
+            @click.stop="go(1)"
+          >
+            <q-icon name="chevron_right" size="22px" />
+          </button>
+
+          <q-carousel-control position="top-right" :offset="[18, 18]">
+            <q-btn
+              push round dense color="white" text-color="primary"
+              :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
+              @click="fullscreen = !fullscreen"
+            />
+          </q-carousel-control>
+        </div>
+      </template>
+    </q-carousel>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-const slide = ref('first')
-/* 16:9-ish but capped by viewport height; tweak as you like.
-   For tall portraits, this gives more vertical room without cropping. */
-const height = 'min(85vh, 90vw)'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+
+export type CarouselSlide = { name?: string; image: string; caption?: string }
+
+// props (same as before)
+const {
+  slides = [] as CarouselSlide[],
+  fit = 'contain' as 'contain' | 'cover',
+  height = 'min(60vh, 90vw)',
+  sideWidth = 'clamp(140px, 22vw, 320px)',
+  showVignette = true,
+  keyboard = true
+} = defineProps<{
+  slides?: CarouselSlide[]
+  fit?: 'contain' | 'cover'
+  height?: string
+  sideWidth?: string
+  showVignette?: boolean
+  keyboard?: boolean
+}>()
+
+// ✅ normalize to a type with a guaranteed name
+type NormalizedSlide = { name: string; image: string; caption?: string }
+
+const normalizedSlides = computed<NormalizedSlide[]>(() =>
+  slides.map((s, i) => {
+    const base = { name: s.name ?? `slide-${i + 1}`, image: s.image }
+    return s.caption !== undefined ? { ...base, caption: s.caption } : base
+  })
+)
+
+const fullscreen = ref(false)
+
+
+// keep active as a string
+const active = ref<string>(normalizedSlides.value[0]?.name ?? 'slide-1')
+
+/* slide navigation (no TS errors now) */
+// active is `ref<string>` and normalizedSlides guarantees `name: string`
+function go(delta: number) {
+  const list = normalizedSlides.value
+  const len = list.length
+  if (len === 0) return
+
+  // if only one slide, just lock to it
+  if (len === 1) {
+    if (list[0]) {
+      active.value = list[0].name
+    }
+    return
+  }
+
+  // safe modulo (handles negative deltas)
+  const mod = (n: number, m: number) => ((n % m) + m) % m
+
+  const idx = list.findIndex(s => s.name === active.value)
+  const start = idx === -1 ? 0 : idx         // fallback if active isn't found
+  const nextIndex = mod(start + delta, len)  // wrap around both ways
+
+  if (list[nextIndex]) {
+    active.value = list[nextIndex].name
+  }
+}
+
+
+/* keyboard navigation (global) */
+function onKeydown(e: KeyboardEvent) {
+  if (!keyboard) return
+  if (e.key === 'ArrowRight') { e.preventDefault(); go(+1) }
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); go(-1) }
+}
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
-<style lang="css" scoped>
-/* round the whole carousel and hide overflow so images/captions stay clipped */
-.no-crop-carousel {
-    border-radius: 20px;
-    overflow: hidden;
+
+<style scoped>
+/* container */
+.nc-carousel { border-radius: 20px; overflow: hidden; }
+.nc-carousel :deep(.q-carousel__slides-container) { position: relative; }
+
+/* slide */
+.nc-slide { position: relative; height: 100%; overflow: hidden; }
+
+/* stage (image area) */
+.nc-stage {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #000; /* letterbox bars */
+  outline: none;
+}
+.nc-media {
+  max-width: 100%; max-height: 100%;
+  width: auto; height: auto;
+  object-fit: contain; display: block;
+}
+.nc-media.cover { object-fit: cover; }
+
+/* vignette */
+.nc-vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to right,
+      rgba(0,0,0,.55) 0%,
+      rgba(0,0,0,.28) 22%,
+      rgba(0,0,0,0) 48%,
+      rgba(0,0,0,.28) 78%,
+      rgba(0,0,0,.55) 100%
+    ),
+    linear-gradient(to top, rgba(0,0,0,.40) 0%, rgba(0,0,0,0) 40%);
+  opacity: .92;
+  transition: opacity .25s ease;
 }
 
-/* allow absolute-positioned children inside slides */
-.no-crop-carousel :deep(.q-carousel__slides-container) {
-    position: relative;
+/* hero overlay grid: left | center | right (text only in sides) */
+.nc-hero {
+  --side: clamp(140px, 22vw, 320px); /* fallback */
+  position: absolute; inset: 0;
+  display: grid;
+  grid-template-columns: var(--side) 1fr var(--side);
+  align-items: center;
+  color: #fff;
+  pointer-events: none; /* keep hover on image */
 }
 
-.slide {
-    position: relative;
-    height: 100%;
-    overflow: hidden;
-    /* keeps rounded corners clean */
+/* side columns */
+.nc-left  { grid-column: 1; justify-self: start; padding-inline: clamp(8px, 1.6vw, 16px); max-width: 100%; }
+.nc-right { grid-column: 3; justify-self: end;   padding-inline: clamp(8px, 1.6vw, 16px); max-width: 100%; text-align: right; }
+
+/* text */
+.nc-title, .nc-desc { margin: 0; white-space: normal; word-break: break-word; text-wrap: pretty;}
+.nc-title { font-weight: 800; line-height: 1.05; font-size: clamp(22px, 5vw, 48px); text-shadow: 0 2px 6px rgba(0,0,0,.55); font-family: var(--font-pacifico, sans-serif); }
+.nc-desc  { font-size: clamp(14px, 2vw, 18px); line-height: 1.55; color: rgba(255,255,255,.96); text-shadow: 0 1px 3px rgba(0,0,0,.55); font-family: var(--font-Inconsolata, sans-serif); }
+
+/* hover-to-reveal left/right text */
+.nc-left, .nc-right {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(3px);
+  transition: opacity .35s ease, transform .35s ease, filter .35s ease;
+}
+.nc-stage:hover ~ .nc-hero .nc-left,
+.nc-stage:hover ~ .nc-hero .nc-right,
+.nc-stage:focus-within ~ .nc-hero .nc-left,
+.nc-stage:focus-within ~ .nc-hero .nc-right {
+  opacity: 1; transform: translateY(0); filter: blur(0);
+}
+.nc-stage:hover ~ .nc-vignette { opacity: 1; }
+
+/* --- Custom corner arrows --- */
+.nav-corners {
+  position: absolute; inset: 0;
+  pointer-events: none; /* only buttons receive events */
+}
+.nav-btn {
+  position: absolute;
+  bottom: 12px;
+  width: 44px; height: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 9999px;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.35);
+  background: rgba(0,0,0,0);    /* transparent by default */
+  backdrop-filter: blur(2px);
+  opacity: 0;                   /* hidden until hover */
+  transform: translateY(6px);   /* subtle lift-in */
+  transition: opacity .2s ease, background .2s ease, transform .15s ease;
+  pointer-events: auto;         /* accept clicks */
+}
+.nav-left  { left: 12px; }
+.nav-right { right: 12px; }
+
+.nc-carousel:hover .nav-btn,
+.nc-carousel:focus-within .nav-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+.nav-btn:hover {
+  background: rgba(128,128,128,.6); /* grey background on hover */
 }
 
-/* full-slide stage that centers the image; gives letterbox/pillarbox when needed */
-.media-box {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-    /* bar color */
+/* Touch: always show buttons */
+@media (hover: none) {
+  .nav-btn { opacity: 1; transform: none; background: rgba(128,128,128,.5); }
 }
 
-/* scale the image to fit without cropping */
-.media {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    /* key line: no crop */
-    display: block;
-}
-
-/* caption polish (you already use absolute-bottom from Quasar) */
-.custom-caption {
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top,
-            rgba(0, 0, 0, 0.55),
-            rgba(0, 0, 0, 0.35),
-            rgba(0, 0, 0, 0));
-    padding: 12px 16px;
-    text-align: center;
-    color: #fff;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, .4);
-}
-
-/* optional: make headings adapt a bit on small screens */
-@media (max-width: 600px) {
-    .custom-caption .text-h2 {
-        font-size: 1.25rem;
-    }
-
-    .custom-caption .text-subtitle1 {
-        font-size: .95rem;
-    }
+/* mobile layout: stack text */
+@media (max-width: 900px) {
+  .nc-hero {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    gap: 10px;
+    padding: 16px;
+  }
+  .nc-right { text-align: left; }
 }
 </style>

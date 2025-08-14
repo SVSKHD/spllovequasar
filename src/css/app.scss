@@ -1,8 +1,9 @@
 /* Import Google Fonts once */
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Playwrite+HU:wght@100..400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Pacifico&family=Playwrite+HU:wght@100..400&display=swap');
 
 /* Global font variables */
 :root {
+  --font-Inconsolata: "Inconsolata", monospace;
   --font-pacifico: "Pacifico", cursive;
   --font-playwrite: "Playwrite HU", sans-serif;
   --love-gradient: linear-gradient(90deg, #ff4d6d, #ff7a9e, #b5179e, #7b2cbf);

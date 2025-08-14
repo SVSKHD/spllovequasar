@@ -30,6 +30,8 @@
 
                                 <q-btn color="primary" class="q-mt-md auth-btn-text" rounded :label="buttonLabel"
                                     type="submit" unelevated />
+                                    <q-separator class="q-mb-md q-mt-md"/>
+                                      <q-btn color="teal" class="full-width" icon="eva-google-outline" />
                             </q-form>
                         </q-card-section>
                     </q-card>
@@ -115,17 +117,28 @@ const bDayRules = ref<RuleFn[]>([
     }
 ])
 
+const userData = ref<{ login?: boolean, spoorthy?: boolean, hithesh?: boolean }>({})
 async function handleSubmit() {
     // validate via q-form first
     const ok = await formRef.value?.validate()
     if (!ok) return
-
     const digits = String(bDay.value ?? '').replace(/\D/g, '')
     try {
         if (digits === '26071995') {
+            userData.value.login =  true
+            userData.value.spoorthy = false
+            userData.value.hithesh = true
             await router.push("/hithesh")
-        } else {
+            localStorage.setItem("login", JSON.stringify(userData.value))
+        } else if (digits === '17101999') {
+            userData.value.login =  true
+            userData.value.spoorthy = true
+            userData.value.hithesh = false
             await router.push("/spoorthy")
+            localStorage.setItem("login", JSON.stringify(userData.value))
+        }else{
+            console.log("Invalid date")
+            alert("Invalid date")
         }
     } catch (e) {
         console.log(e)
