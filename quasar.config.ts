@@ -32,6 +32,12 @@ export default defineConfig((ctx) => {
       "roboto-font", // optional, you are not bound to it
       "material-icons", // optional, you are not bound to it
     ],
+    hooks: {
+  afterBuild() {
+    const fs = require('fs')
+    fs.writeFileSync('dist/spa/_redirects', '/* /index.html 200')
+  }
+},
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#build
     build: {
@@ -146,6 +152,7 @@ export default defineConfig((ctx) => {
       middlewares: [
         "render", // keep this as last one
       ],
+
 
       // extendPackageJson (json) {},
       // extendSSRWebserverConf (esbuildConf) {},
