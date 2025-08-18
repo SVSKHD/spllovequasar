@@ -28,9 +28,9 @@ import carousel, { type CarouselSlide } from 'src/components/imageCarousel.vue';
 //images
 // change these lines
 import picAngry from 'assets/splvlovevc/splangry.png';
-// import picLove from 'src/assets/splvlovevc/splloveu.png';
-// import picHappy from 'src/assets/splvlovevc/splhappy.png';
-// import picSad from 'src/assets/splvlovevc/splsorrow.png';
+import picLove from 'src/assets/splvlovevc/splloveu.png';
+import picHappy from 'src/assets/splvlovevc/splhappy.png';
+import picSad from 'src/assets/splvlovevc/splsorrow.png';
 
 const tab = ref('timeline');
 const tabs = [
@@ -104,24 +104,24 @@ const slides: CarouselSlide[] = [
     caption:
       'Hey baby, I’m sorry for raising my voice. I only wanted you to feel open with me, not closed off. It’s always been a quiet kind of love, but it’s real.',
   },
-  //   {
-  //     image: picLove,
-  //     name: 'I Love u',
-  //     caption:
-  //       'I’ve loved you since our childhood. I showed it in a playful, naughty way—never to hurt you. If I’d known you loved me too, I’d have dropped the teasing and never let you go.',
-  //   },
-  //   {
-  //     image: picSad,
-  //     name: "I Don't like u to be sad i will light up ur mood every time",
-  //     caption:
-  //       "I never dated because I didn’t feel anything for anyone. Proposals came with age, but I never took them seriously. I was afraid of emotional weakness—yet I want to fall for you, even if it’s late. If I don’t show it now, what's the point in loving",
-  //   },
-  //   {
-  //     image: picHappy,
-  //     name: 'I want u be Happy My baby',
-  //     caption:
-  //       'I want you happy—and I want to be there to keep that smile. I’m a little afraid of losing you, so I keep asking you to marry me, just so my heart knows you’re staying with me.',
-  //   },
+  {
+    image: picLove,
+    name: 'I Love u',
+    caption:
+      'I’ve loved you since our childhood. I showed it in a playful, naughty way—never to hurt you. If I’d known you loved me too, I’d have dropped the teasing and never let you go.',
+  },
+  {
+    image: picSad,
+    name: "I Don't like u to be sad i will light up ur mood every time",
+    caption:
+      "I never dated because I didn’t feel anything for anyone. Proposals came with age, but I never took them seriously. I was afraid of emotional weakness—yet I want to fall for you, even if it’s late. If I don’t show it now, what's the point in loving",
+  },
+  {
+    image: picHappy,
+    name: 'I want u be Happy My baby',
+    caption:
+      'I want you happy—and I want to be there to keep that smile. I’m a little afraid of losing you, so I keep asking you to marry me, just so my heart knows you’re staying with me.',
+  },
 ];
 
 function onAction({
