@@ -27,7 +27,7 @@ import timeline, {
 import carousel, { type CarouselSlide } from 'src/components/imageCarousel.vue';
 //images
 // change these lines
-import picAngry from '../assets/splvlovevc/splangry.png';
+import picAngry from 'assets/splvlovevc/splangry.png';
 // import picLove from 'src/assets/splvlovevc/splloveu.png';
 // import picHappy from 'src/assets/splvlovevc/splhappy.png';
 // import picSad from 'src/assets/splvlovevc/splsorrow.png';

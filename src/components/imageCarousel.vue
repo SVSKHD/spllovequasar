@@ -21,7 +21,7 @@
             class="nc-media"
             :class="fit"
             :src="s.image"
-            :alt="s.name || `slide-${i+1}`"
+            :alt="s.name || `slide-${i + 1}`"
             loading="lazy"
           />
         </div>
@@ -43,25 +43,21 @@
       <!-- Custom corner arrows + fullscreen -->
       <template #control>
         <div class="nav-corners">
-          <button
-            class="nav-btn nav-left"
-            aria-label="Previous"
-            @click.stop="go(-1)"
-          >
+          <button class="nav-btn nav-left" aria-label="Previous" @click.stop="go(-1)">
             <q-icon name="chevron_left" size="22px" />
           </button>
 
-          <button
-            class="nav-btn nav-right"
-            aria-label="Next"
-            @click.stop="go(1)"
-          >
+          <button class="nav-btn nav-right" aria-label="Next" @click.stop="go(1)">
             <q-icon name="chevron_right" size="22px" />
           </button>
 
           <q-carousel-control position="top-right" :offset="[18, 18]">
             <q-btn
-              push round dense color="white" text-color="primary"
+              push
+              round
+              dense
+              color="white"
+              text-color="primary"
               :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
               @click="fullscreen = !fullscreen"
             />
@@ -73,9 +69,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
 
-export type CarouselSlide = { name?: string; image: string; caption?: string }
+export type CarouselSlide = { name?: string; image: string; caption?: string };
 
 // props (same as before)
 const {
@@ -84,113 +80,137 @@ const {
   height = 'min(60vh, 90vw)',
   sideWidth = 'clamp(140px, 22vw, 320px)',
   showVignette = true,
-  keyboard = true
+  keyboard = true,
 } = defineProps<{
-  slides?: CarouselSlide[]
-  fit?: 'contain' | 'cover'
-  height?: string
-  sideWidth?: string
-  showVignette?: boolean
-  keyboard?: boolean
-}>()
+  slides?: CarouselSlide[];
+  fit?: 'contain' | 'cover';
+  height?: string;
+  sideWidth?: string;
+  showVignette?: boolean;
+  keyboard?: boolean;
+}>();
 
 // ✅ normalize to a type with a guaranteed name
-type NormalizedSlide = { name: string; image: string; caption?: string }
+type NormalizedSlide = { name: string; image: string; caption?: string };
 
 const normalizedSlides = computed<NormalizedSlide[]>(() =>
   slides.map((s, i) => {
-    const base = { name: s.name ?? `slide-${i + 1}`, image: s.image }
-    return s.caption !== undefined ? { ...base, caption: s.caption } : base
-  })
-)
+    const base = { name: s.name ?? `slide-${i + 1}`, image: s.image };
+    return s.caption !== undefined ? { ...base, caption: s.caption } : base;
+  }),
+);
 
-const fullscreen = ref(false)
-
+const fullscreen = ref(false);
 
 // keep active as a string
-const active = ref<string>(normalizedSlides.value[0]?.name ?? 'slide-1')
+const active = ref<string>(normalizedSlides.value[0]?.name ?? 'slide-1');
 
 /* slide navigation (no TS errors now) */
 // active is `ref<string>` and normalizedSlides guarantees `name: string`
 function go(delta: number) {
-  const list = normalizedSlides.value
-  const len = list.length
-  if (len === 0) return
+  const list = normalizedSlides.value;
+  const len = list.length;
+  if (len === 0) return;
 
   // if only one slide, just lock to it
   if (len === 1) {
     if (list[0]) {
-      active.value = list[0].name
+      active.value = list[0].name;
     }
-    return
+    return;
   }
 
   // safe modulo (handles negative deltas)
-  const mod = (n: number, m: number) => ((n % m) + m) % m
+  const mod = (n: number, m: number) => ((n % m) + m) % m;
 
-  const idx = list.findIndex(s => s.name === active.value)
-  const start = idx === -1 ? 0 : idx         // fallback if active isn't found
-  const nextIndex = mod(start + delta, len)  // wrap around both ways
+  const idx = list.findIndex((s) => s.name === active.value);
+  const start = idx === -1 ? 0 : idx; // fallback if active isn't found
+  const nextIndex = mod(start + delta, len); // wrap around both ways
 
   if (list[nextIndex]) {
-    active.value = list[nextIndex].name
+    active.value = list[nextIndex].name;
   }
 }
 
-
 /* keyboard navigation (global) */
 function onKeydown(e: KeyboardEvent) {
-  if (!keyboard) return
-  if (e.key === 'ArrowRight') { e.preventDefault(); go(+1) }
-  if (e.key === 'ArrowLeft')  { e.preventDefault(); go(-1) }
+  if (!keyboard) return;
+  if (e.key === 'ArrowRight') {
+    e.preventDefault();
+    go(+1);
+  }
+  if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    go(-1);
+  }
 }
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
+onMounted(() => window.addEventListener('keydown', onKeydown));
+onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown));
 </script>
-
 
 <style scoped>
 /* container */
-.nc-carousel { border-radius: 20px; overflow: hidden; }
-.nc-carousel :deep(.q-carousel__slides-container) { position: relative; }
+.nc-carousel {
+  border-radius: 20px;
+  overflow: hidden;
+}
+.nc-carousel :deep(.q-carousel__slides-container) {
+  position: relative;
+}
 
 /* slide */
-.nc-slide { position: relative; height: 100%; overflow: hidden; }
+.nc-slide {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
 
 /* stage (image area) */
 .nc-stage {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #000; /* letterbox bars */
   outline: none;
 }
 .nc-media {
-  max-width: 100%; max-height: 100%;
-  width: auto; height: auto;
-  object-fit: contain; display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
-.nc-media.cover { object-fit: cover; }
+.nc-media.cover {
+  object-fit: cover;
+}
 
 /* vignette */
 .nc-vignette {
-  position: absolute; inset: 0; pointer-events: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background:
-    linear-gradient(to right,
-      rgba(0,0,0,.55) 0%,
-      rgba(0,0,0,.28) 22%,
-      rgba(0,0,0,0) 48%,
-      rgba(0,0,0,.28) 78%,
-      rgba(0,0,0,.55) 100%
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.28) 22%,
+      rgba(0, 0, 0, 0) 48%,
+      rgba(0, 0, 0, 0.28) 78%,
+      rgba(0, 0, 0, 0.55) 100%
     ),
-    linear-gradient(to top, rgba(0,0,0,.40) 0%, rgba(0,0,0,0) 40%);
-  opacity: .92;
-  transition: opacity .25s ease;
+    linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 40%);
+  opacity: 0.92;
+  transition: opacity 0.25s ease;
 }
 
 /* hero overlay grid: left | center | right (text only in sides) */
 .nc-hero {
   --side: clamp(140px, 22vw, 320px); /* fallback */
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
   display: grid;
   grid-template-columns: var(--side) 1fr var(--side);
   align-items: center;
@@ -199,51 +219,99 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 }
 
 /* side columns */
-.nc-left  { grid-column: 1; justify-self: start; padding-inline: clamp(8px, 1.6vw, 16px); max-width: 100%; }
-.nc-right { grid-column: 3; justify-self: end;   padding-inline: clamp(8px, 1.6vw, 16px); max-width: 100%; text-align: right; }
+.nc-left {
+  grid-column: 1;
+  justify-self: start;
+  padding-inline: clamp(8px, 1.6vw, 16px);
+  max-width: 100%;
+}
+.nc-right {
+  grid-column: 3;
+  justify-self: end;
+  padding-inline: clamp(8px, 1.6vw, 16px);
+  max-width: 100%;
+  text-align: right;
+}
 
 /* text */
-.nc-title, .nc-desc { margin: 0; white-space: normal; word-break: break-word; text-wrap: pretty;}
-.nc-title { font-weight: 800; line-height: 1.05; font-size: clamp(22px, 5vw, 48px); text-shadow: 0 2px 6px rgba(0,0,0,.55); font-family: var(--font-pacifico, sans-serif); }
-.nc-desc  { font-size: clamp(14px, 2vw, 18px); line-height: 1.55; color: rgba(255,255,255,.96); text-shadow: 0 1px 3px rgba(0,0,0,.55); font-family: var(--font-Inconsolata, sans-serif); }
+.nc-title,
+.nc-desc {
+  margin: 0;
+  white-space: normal;
+  word-break: break-word;
+  text-wrap: pretty;
+}
+.nc-title {
+  font-weight: 800;
+  line-height: 1.05;
+  font-size: clamp(22px, 5vw, 48px);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+  font-family: var(--font-pacifico, sans-serif);
+}
+.nc-desc {
+  font-size: clamp(14px, 2vw, 18px);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.96);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+  font-family: var(--font-Inconsolata, sans-serif);
+}
 
 /* hover-to-reveal left/right text */
-.nc-left, .nc-right {
+.nc-left,
+.nc-right {
   opacity: 0;
   transform: translateY(12px);
   filter: blur(3px);
-  transition: opacity .35s ease, transform .35s ease, filter .35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease,
+    filter 0.35s ease;
 }
 .nc-stage:hover ~ .nc-hero .nc-left,
 .nc-stage:hover ~ .nc-hero .nc-right,
 .nc-stage:focus-within ~ .nc-hero .nc-left,
 .nc-stage:focus-within ~ .nc-hero .nc-right {
-  opacity: 1; transform: translateY(0); filter: blur(0);
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
 }
-.nc-stage:hover ~ .nc-vignette { opacity: 1; }
+.nc-stage:hover ~ .nc-vignette {
+  opacity: 1;
+}
 
 /* --- Custom corner arrows --- */
 .nav-corners {
-  position: absolute; inset: 0;
+  position: absolute;
+  inset: 0;
   pointer-events: none; /* only buttons receive events */
 }
 .nav-btn {
   position: absolute;
   bottom: 12px;
-  width: 44px; height: 44px;
-  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 9999px;
   color: #fff;
-  border: 1px solid rgba(255,255,255,.35);
-  background: rgba(0,0,0,0);    /* transparent by default */
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0); /* transparent by default */
   backdrop-filter: blur(2px);
-  opacity: 0;                   /* hidden until hover */
-  transform: translateY(6px);   /* subtle lift-in */
-  transition: opacity .2s ease, background .2s ease, transform .15s ease;
-  pointer-events: auto;         /* accept clicks */
+  opacity: 0; /* hidden until hover */
+  transform: translateY(6px); /* subtle lift-in */
+  transition:
+    opacity 0.2s ease,
+    background 0.2s ease,
+    transform 0.15s ease;
+  pointer-events: auto; /* accept clicks */
 }
-.nav-left  { left: 12px; }
-.nav-right { right: 12px; }
+.nav-left {
+  left: 12px;
+}
+.nav-right {
+  right: 12px;
+}
 
 .nc-carousel:hover .nav-btn,
 .nc-carousel:focus-within .nav-btn {
@@ -251,12 +319,16 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
   transform: translateY(0);
 }
 .nav-btn:hover {
-  background: rgba(128,128,128,.6); /* grey background on hover */
+  background: rgba(128, 128, 128, 0.6); /* grey background on hover */
 }
 
 /* Touch: always show buttons */
 @media (hover: none) {
-  .nav-btn { opacity: 1; transform: none; background: rgba(128,128,128,.5); }
+  .nav-btn {
+    opacity: 1;
+    transform: none;
+    background: rgba(128, 128, 128, 0.5);
+  }
 }
 
 /* mobile layout: stack text */
@@ -267,6 +339,8 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
     gap: 10px;
     padding: 16px;
   }
-  .nc-right { text-align: left; }
+  .nc-right {
+    text-align: left;
+  }
 }
 </style>
