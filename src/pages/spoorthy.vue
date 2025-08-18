@@ -26,10 +26,11 @@ import timeline, {
 } from 'src/components/timeline.vue';
 import carousel, { type CarouselSlide } from 'src/components/imageCarousel.vue';
 //images
-import picAngry from '../assets/splvlovevc/splangry.png';
-import picLove from '../assets/splvlovevc/splloveu.png';
-import picHappy from '../assets/splvlovevc/splhappy.png';
-import picSad from '../assets/splvlovevc/splsorrow.png';
+// change these lines
+import picAngry from 'src/assets/splvlovevc/splangry.png';
+import picLove from 'src/assets/splvlovevc/splloveu.png';
+import picHappy from 'src/assets/splvlovevc/splhappy.png';
+import picSad from 'src/assets/splvlovevc/splsorrow.png';
 
 const tab = ref('timeline');
 const tabs = [
