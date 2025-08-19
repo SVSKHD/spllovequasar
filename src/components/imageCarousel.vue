@@ -243,17 +243,31 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown));
 }
 .nc-title {
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.3 !important;
+  word-spacing: 0.6em;
   font-size: clamp(22px, 5vw, 48px);
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
   font-family: var(--font-pacifico, sans-serif);
 }
 .nc-desc {
   font-size: clamp(14px, 2vw, 18px);
-  line-height: 1.55;
+  line-height: 1.3;
+  text-align: left;
   color: rgba(255, 255, 255, 0.96);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
   font-family: var(--font-Inconsolata, sans-serif);
+  display: block;
+  padding-left: 1.2em;
+  position: relative;
+}
+.nc-desc br + br {
+  display: none;
+}
+.nc-desc br + span::before {
+  content: '\2022  ';
+  position: absolute;
+  left: 0;
+  color: #fff;
 }
 
 /* hover-to-reveal left/right text */

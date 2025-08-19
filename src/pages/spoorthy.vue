@@ -28,9 +28,14 @@ import carousel, { type CarouselSlide } from 'src/components/imageCarousel.vue';
 //images
 // change these lines
 import picAngry from 'assets/splvlovevc/splangry.png';
-import picLove from 'src/assets/splvlovevc/splloveu.png';
-import picHappy from 'src/assets/splvlovevc/splhappy.png';
-import picSad from 'src/assets/splvlovevc/splsorrow.png';
+import picLove from 'assets/splvlovevc/splloveu.png';
+import picHappy from 'assets/splvlovevc/splhappy.png';
+import picSad from 'assets/splvlovevc/splsorrow.png';
+import picLove2 from 'assets/splvlovevc/spllove2.png';
+import picEmotional from 'assets/splvlovevc/splemotional.png';
+import picKiss from 'assets/splvlovevc/splkiss.png';
+import picChild from 'assets/splvlovevc/splchild.png';
+import picchildhittu from 'assets/splvlovevc/hitchildhood.png';
 
 const tab = ref('timeline');
 const tabs = [
@@ -121,6 +126,36 @@ const slides: CarouselSlide[] = [
     name: 'I want u be Happy My baby',
     caption:
       'I want you happy—and I want to be there to keep that smile. I’m a little afraid of losing you, so I keep asking you to marry me, just so my heart knows you’re staying with me.',
+  },
+  {
+    image: picLove2,
+    name: 'why am i loving u so intense',
+    caption:
+      'I’ve loved you since childhood. I used to kiss you so many times back then—and even when I got caught, I still couldn’t stop. Even now, I find myself kissing you again and again. I’ve controlled myself so much whenever I saw you, thinking you never felt anything for me. But this love has always been there, and it always will be—it comes out only with you.',
+  },
+  {
+    image: picEmotional,
+    name: 'U have Overloaded me with emotions',
+    caption:
+      'I had no emotions, no feelings—I was always strong. But you made me weak. Why did you have to? I was fine, I was strong when I never expressed my love. But the moment I did, you made me vulnerable, completely surrounded and surrendered to your emotions. Yet somehow, I feel like you’re actually making me stronger—in every way, in new ways I never imagined. I feel strangely strong in love, able to control my negative emotions, my anger, my irritations. You make me calm, peaceful—no shouts, no storms. Without even trying, you’ve changed me so much, and I love the person I am becoming with you. You even made me stop a 14-year habit—I guess I just needed to be loved by you. That must be my destiny',
+  },
+  {
+    image: picKiss,
+    name: 'Umma 😘😘😘, i love the way u kiss me.(Smart)',
+    caption:
+      'I love the way you kiss me, the way you pull me close, the way you stay near and even feed me—you are perfect, my love. You are exactly how I had always imagined. For so long, I thought you never loved me, that you had nothing for me… but when I realized the truth, I found myself crying every day. All I want now is to live my life with you—if you agree, I will be the happiest. And if not, then at least let me live a part of my life with you. We can be such a beautiful couple—I will protect you from every evil eye and work for all your needs, my love. Please… live with me.',
+  },
+  {
+    image: picChild,
+    name: 'finally when did i fall ❤️ for u..?',
+    caption:
+      'Finally, I wonder—when did I truly fall? Maybe it was back in third standard, the very first time I kissed you when we were alone in that little room above the stairs. That was the moment I started loving you, and that love has never left me.',
+  },
+  {
+    image: picchildhittu,
+    name: 'Will This Child Always Stay Cute for You?',
+    caption:
+      'Why would a child ever be angry with his mother? I’ve missed you since my childhood, and now you’re slowly, steadily becoming my everything. I love how you take control over me—so effortlessly, without me even realizing it. This kid has always craved your kisses, your hugs, your love, and your pampering. Yes, he’s made mistakes, but he loves you deeply and is changing for you. So please… don’t push him away, don’t fight with him. Even if he slips up sometimes, all he really wants is to stay close to you—and to remain that same cute child in your eyes, always.',
   },
 ];
 
