@@ -5,11 +5,17 @@
       <timeline :events="events" color="secondary" @action="onAction" />
     </template>
     <template #memories>
-      <div class="row">
-        <div class="col">
-          <carousel :slides="slides" fit="contain" side-width="clamp(140px, 22vw, 320px)" />
-        </div>
+      <div>
+        <carousel :slides="slides" fit="contain" side-width="clamp(140px, 22vw, 320px)" />
       </div>
+    </template>
+    <template #Gifts>
+      <VerticleTabsComponent
+        v-model="verticleTab"
+        :items="verticleTabs"
+        :height="'800px'"
+        :split-percent="24"
+      />
     </template>
   </GlassTabs>
 </template>
@@ -18,6 +24,7 @@
 import { ref } from 'vue';
 import typeWritter from '../components/typeWritter.vue';
 import GlassTabs from '../components/tabs.vue';
+import VerticleTabsComponent from 'src/components/verticleTabs.vue';
 import timeline, {
   type TimelineItem,
   type TimelineAction,
@@ -43,6 +50,7 @@ const tabs = [
   { name: 'memories', label: 'Memories', icon: 'eva-tv-outline' },
   { name: 'interesting', label: 'Interesting', icon: 'movie' },
   { name: 'Questions', label: 'Questions', icon: 'eva-mic-outline' },
+  { name: 'Gifts', label: 'Gifts By U', icon: 'eva-gift-outline' },
 ];
 const events = [
   { type: 'heading', text: 'When We Met (May-23rd)' } satisfies TimelineHeading,
@@ -170,4 +178,213 @@ function onAction({
 }) {
   console.log('Action clicked:', action, 'on item', index, item);
 }
+
+const verticleTab = ref('mails');
+
+const verticleTabs = [
+  {
+    name: 'mails',
+    icon: 'mail',
+    label: 'You Feel Confused About Us..?',
+    title: 'Inbox',
+    html: `We didn’t express things before. We didn’t talk then.
+And somehow, after all this time, we found our way back—unexpectedly, quietly, but fully.
+
+Now we’re here. Sharing late-night talks, teasing each other, laughing, crying, remembering,
+and feeling everything like no time ever passed.
+
+It is confusing sometimes, I know. For you, for me, for whatever “this” is.
+
+But maybe not everything needs to be figured out right now.
+Maybe this doesn’t need a name or a definition.
+Maybe this is just two people who missed each other far too long
+and are now building something gentle. Something real.
+
+Even if it doesn’t come with answers, and for now, that’s enough for me.
+These moments, these memories we’re making—they matter.
+And somewhere deep down, we both know this, whatever it is… special.`,
+    reply: true,
+    replyLabel: 'Show Reply',
+    replyData: `I’ve been missing you so much these past days 💔.
+I’ve made mistakes—serious ones—that hurt me deeply, almost like being shot in the knee and nearly in the heart… but I’m still here.
+I’m stronger every time I fall, and I’ll always come back to you.
+
+I need your love, your support, your everything ❤️.
+I know I wasn’t there when you needed me the most, and I thought you never truly felt anything for me 😔.
+Please forgive me… I was wrong.
+
+I love you endlessly, and I promise to keep fighting my way back to you, always 💕✨`,
+  },
+
+  {
+    name: 'alarms',
+    icon: 'alarm',
+    label: 'You Remember Our Cooking and Dancing Days',
+    title: 'Alarms',
+    html: `Let’s be honest—We made the best team in the kitchen ^_^
+
+You were cooking paneer like a pro, I cooked chicken, and somehow everything turned out perfect. No chaos. Just music playing, us dancing like kids in between, laughing at nothing, enjoying everything.
+
+I’d keep coming in to help you, act bossy sometimes, and you’d still let me do things my way. Then we’d curl up to watch a movie, eat the food we made together, and it felt so peaceful.
+
+You even made coffee for me every morning, took care of me in those small, quiet ways that meant more than anything.
+That day wasn’t just good. It was golden.`,
+    reply: true,
+    replyData: 'I miss those golden days too 💛',
+  },
+
+  {
+    name: 'movies',
+    icon: 'movie',
+    label: "You Miss Me 😘 But Won't",
+    title: 'Do u Miss Me? 😘',
+    html: `You may not say it, but your little "hiii", that random "Ummm" — I hear it all.
+You miss me, don’t you? ^_^
+It’s okay. I miss you too. Quietly, stubbornly again, even if we start with a fight.
+We’re weird like that. But it’s our kind of weird.`,
+    reply: true,
+    replyData: 'I miss you too ❤️',
+  },
+
+  {
+    name: 'gym',
+    icon: 'dumbbell',
+    label: "You're at the Gym feeling Tired but Focused",
+    title: 'Gym Mode',
+    html: `Some people work out for fitness.
+You? You’re on a mission. Abs coming soon.
+I can already imagine the day you’ll stand in front of the mirror and say, "See? I told you."
+
+But for me, it’s not about the abs or the gym selfies.
+It’s about how far you’ve come. About your fire, your discipline,
+and the way you show up even when no one’s clapping.
+That? That’s why I’m proud of you.`,
+    reply: true,
+    replyData: 'I’m proud of you too 💪🔥',
+  },
+
+  {
+    name: 'stress',
+    icon: 'moon',
+    label: "You Feel Stressed and Can't Sleep",
+    title: 'Night Thoughts',
+    html: `I know your brain’s probably running a marathon again tonight.
+So take a breath… a slow one. Imagine us, black coffee, soft talks, no fights, just peace.
+
+Even your "I surrender" moment plays in my head right now ^_^
+
+You don’t have to fix everything tonight. Just rest. Even if sleep’s not coming,
+close your eyes and know: someone’s silently thinking of you, like always.`,
+    reply: true,
+    replyData: 'Close your eyes, I’m right here 🌙',
+  },
+
+  {
+    name: 'cute',
+    icon: 'heart',
+    label: 'You Realize you are Getting Cute these Days',
+    title: 'Cute Moments',
+    html: `You… yes, you.
+The one who used to annoy me like crazy, tease me till I’d roll my eyes, poke me, laugh when I got mad.
+
+Now? You’re being soft. Patient. Sitting quietly when I’m moody.
+Letting me hit you (hard) when you show up late, and still somehow smiling through it all.
+
+You’re turning into this soft, sweetest version of yourself.
+Too cute. Too dangerous. I don’t like it.
+[Okay, maybe I do]`,
+    reply: true,
+    replyData: 'Too cute, too dangerous… but mine ❤️',
+  },
+
+  {
+    name: 'trip',
+    icon: 'map',
+    label: 'You Dream about our Trip',
+    title: 'Travel Dreams',
+    html: `You always talk about taking me on a long drive,
+and I hope we may go somewhere peaceful like Kerala or Meghalaya.
+Just us, quiet roads, calm skies, black coffee in hand, and music playing low.
+
+We’d stop at cute spots, share silly stories, maybe sit by a lake and just be—
+no rush, no noise, just soft time together.
+
+Honestly? That sounds like the kind of memory I’d never want to forget.`,
+    reply: true,
+    replyData: 'Let’s make that trip happen 🚗✨',
+  },
+
+  {
+    name: 'weird',
+    icon: 'smile',
+    label: 'You Miss Our Weird Conversations',
+    title: 'Weird Talks',
+    html: `"Hiiii Hitheshhhhhh..." ^_^
+That’s how it always starts, no matter what. Then it turns into “how’s the day,” some silly leg-pulling, and now, I’m the one teasing you nonstop, and you’re just sitting there quietly like this innocent little monk.
+
+And then, your dramatic moment comes, you raise your invisible white flag, smile, and say, “I surrender… no fight, only love.”
+That one line? Kills me every single time ^_^
+
+We talk about everything and nothing at once. It makes no sense but somehow feels like home. It’s weird, it’s funny, it’s soft, it’s just us.`,
+    reply: true,
+    replyData: 'It’s weird, but it’s ours ❤️',
+  },
+
+  {
+    name: 'return',
+    icon: 'refresh',
+    label: 'You Wonder if Coming Back Was Worth it..',
+    title: 'Return',
+    html: `It was. Even with the late timing,
+even with all the years we lost in silence, it was still worth it.
+Because you came back.
+
+After everything. After pain, after heartbreak,
+after the kind of loneliness you never spoke about.
+You remembered me. You searched for me.
+And you let your heart finally say what it held in for so long.
+
+You didn’t owe me an explanation.
+But you showed up anyway, quietly, honestly,
+with all that love still tucked inside you.
+And that moment? It healed something in both of us.
+
+Now we have these little stolen moments—
+the talks, the laughs, the teasing, the shared peace—
+and even if they’re brief, they’re ours.
+
+Thank you… for not giving up.
+For not staying silent.
+For still choosing to come back,
+even when you didn’t know what you’d find.`,
+    reply: true,
+    replyData: 'Yes, it was worth it 💖',
+  },
+
+  {
+    name: 'feelings',
+    icon: 'sparkles',
+    label: 'You Feel Too Much All at Once',
+    title: 'Overwhelmed',
+    html: `Sometimes, your feelings come out in waves—slow, deep, and real.
+And I’ve been watching you carry so much quietly… the pain, the memories, the heaviness from everything you’ve been through.
+
+You’ve gone through a lot, more than you even know.
+And still, you show up—soft, honest, trying to heal one moment at a time.
+
+You once told me you couldn’t sleep properly, that your mind was always noisy, restless.
+And now, somehow, with me, you feel calm, happy, and peaceful.
+Like things inside you are slowly settling.
+
+I don’t even know how or when that happened, but hearing that from you?
+That meant more than you’ll ever realize.
+
+You don’t have to hold it all together with me.
+You’re allowed to be soft, open, and completely you.
+And if being around me gives you even a tiny bit of peace,
+then I’ll keep holding space for that version of you, always.`,
+    reply: true,
+    replyData: 'Take it slow, I’m here ✨',
+  },
+];
 </script>

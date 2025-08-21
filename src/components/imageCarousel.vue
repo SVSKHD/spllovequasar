@@ -1,6 +1,17 @@
 <!-- src/components/ImageCarousel.vue -->
 <template>
-  <div class="q-pa-md">
+  <div class="text-center" v-if="showSlide">
+    <h1 class="text-title text-center">Hey, do you want to see what I’ve been hiding from you</h1>
+    <q-btn
+      class="glass-btn love-btn text-center"
+      @click="showSlide = false"
+      unelevated
+      color="white"
+      text-color="red-900"
+      icon="eva-heart"
+    />
+  </div>
+  <div v-else class="q-pa-md">
     <q-carousel
       v-model="active"
       v-model:fullscreen="fullscreen"
@@ -8,6 +19,7 @@
       infinite
       :height="height"
       class="nc-carousel"
+      @dblclick="fullscreen = !fullscreen"
     >
       <q-carousel-slide
         v-for="(s, i) in normalizedSlides"
@@ -47,6 +59,15 @@
             <q-icon name="chevron_left" size="22px" />
           </button>
 
+          <!-- Center button between arrows -->
+          <button
+            class="nav-btn nav-center"
+            aria-label="Center Action"
+            @click.stop="showSlide = !showSlide"
+          >
+            <q-icon name="star" size="22px" />
+          </button>
+
           <button class="nav-btn nav-right" aria-label="Next" @click.stop="go(1)">
             <q-icon name="chevron_right" size="22px" />
           </button>
@@ -67,6 +88,24 @@
     </q-carousel>
   </div>
 </template>
+
+<style scoped>
+.glass-btn {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  font-weight: bold;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
+}
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 32px 0 rgba(0, 0, 0, 0.15);
+}
+</style>
 
 <script setup lang="ts">
 import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
@@ -89,6 +128,8 @@ const {
   showVignette?: boolean;
   keyboard?: boolean;
 }>();
+
+const showSlide = ref(false);
 
 // ✅ normalize to a type with a guaranteed name
 type NormalizedSlide = { name: string; image: string; caption?: string };
@@ -325,6 +366,14 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown));
 }
 .nav-right {
   right: 12px;
+}
+.nav-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.love-btn {
+  color: red;
 }
 
 .nc-carousel:hover .nav-btn,

@@ -1,50 +1,44 @@
 /* Import Google Fonts once */
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Pacifico&family=Playwrite+HU:wght@100..400&display=swap');
-
-/* Global font variables */
+@import url('https://fonts.googleapis.com/css2?family=Borel&family=Inconsolata:wght@200..900&family=Pacifico&family=Playwrite+HU:wght@100..400&display=swap');
 :root {
-  --font-Inconsolata: "Inconsolata", monospace;
-  --font-pacifico: "Pacifico", cursive;
-  --font-playwrite: "Playwrite HU", sans-serif;
+  --font-Inconsolata: 'Inconsolata', monospace;
+  --font-Borel: 'Borel', cursive;
+  --font-pacifico: 'Pacifico', cursive;
+  --font-playwrite: 'Playwrite HU', sans-serif;
   --love-gradient: linear-gradient(90deg, #ff4d6d, #ff7a9e, #b5179e, #7b2cbf);
   --love-accent: #ff4d6d;
 }
 
-
-
-
 /* Optionally set a base font */
-.auth-card-title{
-    font-family: var(--font-playwrite);
+.auth-card-title {
+  font-family: var(--font-playwrite);
 }
 
-.auth-card-text{
-    font-family: var(--font-playwrite);
+.auth-card-text {
+  font-family: var(--font-playwrite);
 }
 
-.auth-btn-text{
-    font-family: var(--font-playwrite);
-    size: 16px;
-    font-weight: bold;
-    font-style: italic;
+.auth-btn-text {
+  font-family: var(--font-playwrite);
+  size: 16px;
+  font-weight: bold;
+  font-style: italic;
 }
 
-.auth-input-btn-text{
-    font-family: var(--font-playwrite);
-    size:10px;
-    font-weight: bold;
-    font-style: itlaic;
+.auth-input-btn-text {
+  font-family: var(--font-playwrite);
+  size: 10px;
+  font-weight: bold;
+  font-style: itlaic;
 }
-
-
-
-
 
 // timeline
 /* Default: inherit normal text color */
 .love-gradient-hover {
   color: currentColor; /* keeps theme color */
-  transition: background-position 300ms ease, color 200ms ease;
+  transition:
+    background-position 300ms ease,
+    color 200ms ease;
   background-size: 200% 100%;
   background-position: 0% 50%;
 }
@@ -56,7 +50,7 @@
   font-weight: bold;
   font-size: 5rem;
   background-clip: text;
-  color: transparent;                /* so only gradient shows */
+  color: transparent; /* so only gradient shows */
   -webkit-text-fill-color: transparent; /* needed for WebKit */
   background-position: 100% 50%;
 }
@@ -69,4 +63,59 @@
 }
 
 /* Keep bullets unaffected */
-.description-list li::marker { color: currentColor; }
+.description-list li::marker {
+  color: currentColor;
+}
+
+.text-title {
+  font-family: var(--font-pacifico);
+  font-size: 3rem;
+
+  /* Gradient setup */
+  background: linear-gradient(270deg, #b5179e, #7209b7, #3a0ca3, #4361ee, #4cc9f0, #b5179e);
+  background-size: 600% 600%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  /* Animate gradient */
+  animation: gradientMove 6s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.vertile-tab-title {
+  font-family: var(--font-Borel);
+  font-weight: bolder !important;
+  color: #3a0ca3;
+}
+
+.verticle-tab-inner-title {
+  font-family: var(--font-pacifico);
+  color: #b5179e;
+}
+
+.verticle-description {
+  font-family: var(--font-playwrite);
+  font-size: 1.5rem;
+  color: #3a0ca3;
+  font-weight: bold;
+}
+.verticle-description p {
+  margin-bottom: 1.2em;
+  margin-top: 0;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  font-weight: bold;
+}
