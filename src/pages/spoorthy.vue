@@ -17,6 +17,13 @@
         :split-percent="24"
       />
     </template>
+    <template #Tests>
+      <div>
+        <h2>Tests</h2>
+        <p>Here you can find various tests related to our journey.</p>
+      </div>
+      <cup-tea />
+    </template>
   </GlassTabs>
 </template>
 
@@ -25,6 +32,7 @@ import { ref } from 'vue';
 import typeWritter from '../components/typeWritter.vue';
 import GlassTabs from '../components/tabs.vue';
 import VerticleTabsComponent from 'src/components/verticleTabs.vue';
+import cupTea from 'src/components/cupTea.vue';
 import timeline, {
   type TimelineItem,
   type TimelineAction,
@@ -51,6 +59,7 @@ const tabs = [
   { name: 'interesting', label: 'Interesting', icon: 'movie' },
   { name: 'Questions', label: 'Questions', icon: 'eva-mic-outline' },
   { name: 'Gifts', label: 'Gifts By U', icon: 'eva-gift-outline' },
+  { name: 'Tests', label: 'Tests', icon: 'eva-clipboard-outline' },
 ];
 const events = [
   { type: 'heading', text: 'When We Met (May-23rd)' } satisfies TimelineHeading,
@@ -205,22 +214,26 @@ These moments, these memories we’re making—they matter.
 And somewhere deep down, we both know this, whatever it is… special.`,
     reply: true,
     replyLabel: 'Show Reply',
-    replyData: `I’ve been missing you so much these past days 💔.
+    replyData: `**I’ve been missing you so much these past days 💔.**
 I’ve made mistakes—serious ones—that hurt me deeply, almost like being shot in the knee and nearly in the heart… but I’m still here.
 I’m stronger every time I fall, and I’ll always come back to you.
 
-I need your love, your support, your everything ❤️.
+**I need your love, your support, your everything ❤️.**
 I know I wasn’t there when you needed me the most, and I thought you never truly felt anything for me 😔.
 Please forgive me… I was wrong.
 
-I love you endlessly, and I promise to keep fighting my way back to you, always 💕✨`,
+**I’m not confused—I just know I don’t want to miss you.**
+You make me feel safe, cherished, and truly loved. I never mean to force you; I know you may not say yes…
+but I wanted to give my last try, with 100% of my heart.
+
+**I love you endlessly,** and I promise to keep fighting my way back to you, always 💕✨.`,
   },
 
   {
     name: 'alarms',
     icon: 'alarm',
     label: 'You Remember Our Cooking and Dancing Days',
-    title: 'Alarms',
+    title: 'When We Cook',
     html: `Let’s be honest—We made the best team in the kitchen ^_^
 
 You were cooking paneer like a pro, I cooked chicken, and somehow everything turned out perfect. No chaos. Just music playing, us dancing like kids in between, laughing at nothing, enjoying everything.
@@ -230,7 +243,13 @@ I’d keep coming in to help you, act bossy sometimes, and you’d still let me 
 You even made coffee for me every morning, took care of me in those small, quiet ways that meant more than anything.
 That day wasn’t just good. It was golden.`,
     reply: true,
-    replyData: 'I miss those golden days too 💛',
+    replyData: `You know… that was one of my **lifetime goals ✨**—to have a day like that with you.
+
+Cooking side by side 👩‍🍳👨‍🍳, laughing 😂, dancing 💃🕺, eating what we made together 🍴,
+and then just curling up peacefully 🎬💤… it felt like a dream I always wanted to live.
+
+And with you, it became real ❤️.
+That day wasn’t just golden—it was **everything** 🌹💫.`,
   },
 
   {
@@ -243,7 +262,13 @@ You miss me, don’t you? ^_^
 It’s okay. I miss you too. Quietly, stubbornly again, even if we start with a fight.
 We’re weird like that. But it’s our kind of weird.`,
     reply: true,
-    replyData: 'I miss you too ❤️',
+    replyData: `Maybe I don’t always say it, but **yes… I miss you too** 💗.
+
+Your little ‘hiii’, your ‘ummm’, even that cute ‘abbaba’ and the way you go ‘umm umm umm’—I hear it all 🎧.
+They stay with me.
+
+Even if we fight, even if we’re stubborn, we always find our way back 🔁.
+We’re crazy, we’re weird… but it’s **our** kind of love, and I wouldn’t trade it for anything 💞.`,
   },
 
   {
@@ -260,7 +285,12 @@ It’s about how far you’ve come. About your fire, your discipline,
 and the way you show up even when no one’s clapping.
 That? That’s why I’m proud of you.`,
     reply: true,
-    replyData: 'I’m proud of you too 💪🔥',
+    replyData: `Hearing this from you means more than any mirror or abs ever will ❤️.
+
+You see the **effort** behind it, not just the results—and that means everything to me.
+Knowing you’re proud of me is the real fuel that keeps me going 🔥.
+
+With you beside me, I don’t just feel stronger in the gym—I feel stronger in life too 💪✨.`,
   },
 
   {
@@ -276,7 +306,10 @@ Even your "I surrender" moment plays in my head right now ^_^
 You don’t have to fix everything tonight. Just rest. Even if sleep’s not coming,
 close your eyes and know: someone’s silently thinking of you, like always.`,
     reply: true,
-    replyData: 'Close your eyes, I’m right here 🌙',
+    replyData: `Close your eyes, I’m right here 🌙
+
+Slow breath in… slow breath out 😌.
+No fixing tonight—just rest. I’m holding the quiet for us 🤍.`,
   },
 
   {
@@ -294,7 +327,12 @@ You’re turning into this soft, sweetest version of yourself.
 Too cute. Too dangerous. I don’t like it.
 [Okay, maybe I do]`,
     reply: true,
-    replyData: 'Too cute, too dangerous… but mine ❤️',
+    replyData: `Ohhh so now you **admit** you like this version of me 😏.
+
+Don’t worry, the annoying, teasing me is still alive—I’m just giving you the **“soft upgrade”** package for free 😂❤️.
+
+Careful though… if I get too cute, you might never escape me 😜.
+And honestly, imagine how **you** have already killed me with your cuteness 💘.`,
   },
 
   {
@@ -311,7 +349,10 @@ no rush, no noise, just soft time together.
 
 Honestly? That sounds like the kind of memory I’d never want to forget.`,
     reply: true,
-    replyData: 'Let’s make that trip happen 🚗✨',
+    replyData: `**Let’s make that trip happen** 🚗✨
+
+Quiet roads, low music, coffee in hand ☕️, and just us—no rush, no noise.
+Kerala or Meghalaya… I’m already packing our memories 🧳💚.`,
   },
 
   {
@@ -327,7 +368,10 @@ That one line? Kills me every single time ^_^
 
 We talk about everything and nothing at once. It makes no sense but somehow feels like home. It’s weird, it’s funny, it’s soft, it’s just us.`,
     reply: true,
-    replyData: 'It’s weird, but it’s ours ❤️',
+    replyData: `It’s weird, but **it’s ours** ❤️
+
+From “Hiiii Hitheshhhhhh…” to “I surrender—no fight, only love” 🤍,
+you make the nonsense feel like home.`,
   },
 
   {
@@ -358,7 +402,16 @@ For not staying silent.
 For still choosing to come back,
 even when you didn’t know what you’d find.`,
     reply: true,
-    replyData: 'Yes, it was worth it 💖',
+    replyData: `Reading this feels like you just touched the deepest part of me 💖.
+
+Yes, we lost years in silence. Yes, there was pain and heartbreak… but somehow, **destiny** pulled us back together.
+I never forgot you, not for a moment.
+
+When I finally found the courage to come back, it was because my heart always knew where it belonged—**with you**.
+And the truth is, I never knew you carried the same love for me all along. That realization still overwhelms me 🥹.
+
+These little moments we share now—the laughs, the peace, even the teasing—mean the world to me 🌍.
+Thank you for letting me back in, for holding space for me, and for reminding me that **love never really dies**—it just waits to be found again ❤️✨.`,
   },
 
   {
@@ -384,7 +437,33 @@ You’re allowed to be soft, open, and completely you.
 And if being around me gives you even a tiny bit of peace,
 then I’ll keep holding space for that version of you, always.`,
     reply: true,
-    replyData: 'Take it slow, I’m here ✨',
+    replyData: `I felt so low when I wanted to come to you… like I lost the confidence to face you and say what I truly felt 🫣.
+I carried this feeling but couldn’t bring myself to tell you that I **love you**.
+
+Nothing usually breaks me… but I’ve realized these days that being away from you, not talking, or letting fights drag on makes me weak 💔.
+I wanted you to feel good—I know we’ve had conflicts with our families, and I never wanted that to weigh on us.
+In reality, I just couldn’t speak through my anger… **because you didn’t come home in TPT** 😔.
+
+But now, I’m glad you’re in **Kolkata**—I love Kolkata because of you 🏙️💘.
+Being able to stay with you, share with you… my heart feels light ❤️.`,
+  },
+  {
+    name: "B'day bash",
+    icon: 'cake',
+    label: 'You Celebrate Each Other',
+    title: 'Birthday Bash',
+    html: `from annoying me endlessly to quietly bearing all my moods, you’ve changed and it’s the softest surprise.
+Thank you for finally showing up, for staying, for making even the smallest moments feel special; you’re being too cute these days and somehow, I’m cherishing every bit of this version of you… ♥, Happieee birthdayyy ♥♥`,
+    reply: true,
+    replyData: `Celebrating with you this time has been the highlight of my year 🎉.
+
+I love how you made it feel so special just by being you, but because every gesture of yours feels big and every moment is heart-touched. From the thoughtful gifts to the sweet messages, you knew exactly how to make me feel loved and appreciated.
+
+And it wasn’t just about the day itself—it was about the way we created memories together that I’ll always cherish. Whether it was a quiet dinner or a fun moment, being with you made everything feel like a celebration.
+
+Still, I regret that I couldn’t celebrate *your* special day the way I wanted to. But know this—my love isn’t tied to one day. It’s steady, every single day. I might miss marking the date, but I’ll never miss an opportunity to be with you, to meet you, and to make you feel loved 💖.
+
+Thank you for giving me such a beautiful memory this year—I can’t wait for all the moments we’ll create together ✨.`,
   },
 ];
 </script>
