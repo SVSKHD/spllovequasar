@@ -129,7 +129,7 @@ const {
   keyboard?: boolean;
 }>();
 
-const showSlide = ref(false);
+const showSlide = ref(true);
 
 // ✅ normalize to a type with a guaranteed name
 type NormalizedSlide = { name: string; image: string; caption?: string };

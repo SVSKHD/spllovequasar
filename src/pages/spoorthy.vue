@@ -51,6 +51,8 @@ import picEmotional from 'assets/splvlovevc/splemotional.png';
 import picKiss from 'assets/splvlovevc/splkiss.png';
 import picChild from 'assets/splvlovevc/splchild.png';
 import picchildhittu from 'assets/splvlovevc/hitchildhood.png';
+import spltogether from 'assets/splvlovevc/spltogther.png';
+import splflaunt from 'assets/splvlovevc/splfalunt.png';
 
 const tab = ref('timeline');
 const tabs = [
@@ -173,6 +175,18 @@ const slides: CarouselSlide[] = [
     name: 'Will This Child Always Stay Cute for You?',
     caption:
       'Why would a child ever be angry with his mother? I’ve missed you since my childhood, and now you’re slowly, steadily becoming my everything. I love how you take control over me—so effortlessly, without me even realizing it. This kid has always craved your kisses, your hugs, your love, and your pampering. Yes, he’s made mistakes, but he loves you deeply and is changing for you. So please… don’t push him away, don’t fight with him. Even if he slips up sometimes, all he really wants is to stay close to you—and to remain that same cute child in your eyes, always.',
+  },
+  {
+    image: spltogether,
+    name: 'Together Forever',
+    caption:
+      'In this journey of love, I want us to be together forever. Through every challenge, every joy, and every moment, let’s hold on to each other tightly. You are my everything, and I can’t imagine my life without you by my side.',
+  },
+  {
+    image: splflaunt,
+    name: 'My Hot Cheri 😘',
+    caption:
+      'I love flaunting our love to the world. Every moment spent with you is a treasure, and I want everyone to see how beautiful our bond is. Let’s create memories that we can proudly share, showcasing the depth of our connection.',
   },
 ];
 
