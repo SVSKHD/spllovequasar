@@ -119,3 +119,41 @@
   letter-spacing: 0.01em;
   font-weight: bold;
 }
+
+.glass-btn {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  font-weight: bold;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
+}
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 32px 0 rgba(0, 0, 0, 0.15);
+}
+
+.love-btn {
+  color: red;
+}
+
+/* Add to your <style scoped> or global CSS */
+.auth-glass-btn {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  color: #e91e63;
+  border: 1px solid rgba(233, 30, 99, 0.13);
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+.auth-glass-btn:hover,
+.auth-glass-btn:focus {
+  background: rgba(255, 152, 0, 0.25); /* orange glass */
+  color: #ff9800;
+  border-color: #ff9800;
+}

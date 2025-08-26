@@ -1,7 +1,7 @@
 <!-- src/components/ImageCarousel.vue -->
 <template>
   <div class="text-center" v-if="showSlide">
-    <h1 class="text-title text-center">Hey, do you want to see what I’ve been hiding from you</h1>
+    <h1 class="text-title">Hey, do you want to see what I’ve been hiding from you</h1>
     <q-btn
       class="glass-btn love-btn text-center"
       @click="showSlide = false"
@@ -28,7 +28,13 @@
         class="nc-slide"
       >
         <!-- Image stage (centered; no crop) -->
-        <div class="nc-stage" tabindex="0" aria-label="Image slide">
+        <div
+          class="nc-stage"
+          tabindex="0"
+          aria-label="Image slide"
+          @mouseenter="pauseTimer"
+          @mouseleave="resumeTimer"
+        >
           <img
             class="nc-media"
             :class="fit"
@@ -40,6 +46,9 @@
 
         <!-- Edge vignette -->
         <div v-if="showVignette" class="nc-vignette"></div>
+
+        <!-- Countdown badge -->
+        <div class="nc-countdown" aria-live="polite">{{ countdownDisplay }}</div>
 
         <!-- Left | center | right grid; text lives only in side columns -->
         <div class="nc-hero" :style="{ '--side': sideWidth }">
@@ -71,44 +80,14 @@
           <button class="nav-btn nav-right" aria-label="Next" @click.stop="go(1)">
             <q-icon name="chevron_right" size="22px" />
           </button>
-
-          <q-carousel-control position="top-right" :offset="[18, 18]">
-            <q-btn
-              push
-              round
-              dense
-              color="white"
-              text-color="primary"
-              :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
-              @click="fullscreen = !fullscreen"
-            />
-          </q-carousel-control>
         </div>
       </template>
     </q-carousel>
   </div>
 </template>
 
-<style scoped>
-.glass-btn {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
-  font-weight: bold;
-  transition:
-    background 0.2s,
-    box-shadow 0.2s;
-}
-.glass-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 6px 32px 0 rgba(0, 0, 0, 0.15);
-}
-</style>
-
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { computed, ref, onMounted, onBeforeUnmount, watch } from 'vue';
 
 export type CarouselSlide = { name?: string; image: string; caption?: string };
 
@@ -147,13 +126,11 @@ const fullscreen = ref(false);
 const active = ref<string>(normalizedSlides.value[0]?.name ?? 'slide-1');
 
 /* slide navigation (no TS errors now) */
-// active is `ref<string>` and normalizedSlides guarantees `name: string`
 function go(delta: number) {
   const list = normalizedSlides.value;
   const len = list.length;
   if (len === 0) return;
 
-  // if only one slide, just lock to it
   if (len === 1) {
     if (list[0]) {
       active.value = list[0].name;
@@ -161,12 +138,11 @@ function go(delta: number) {
     return;
   }
 
-  // safe modulo (handles negative deltas)
   const mod = (n: number, m: number) => ((n % m) + m) % m;
 
   const idx = list.findIndex((s) => s.name === active.value);
-  const start = idx === -1 ? 0 : idx; // fallback if active isn't found
-  const nextIndex = mod(start + delta, len); // wrap around both ways
+  const start = idx === -1 ? 0 : idx;
+  const nextIndex = mod(start + delta, len);
 
   if (list[nextIndex]) {
     active.value = list[nextIndex].name;
@@ -179,14 +155,86 @@ function onKeydown(e: KeyboardEvent) {
   if (e.key === 'ArrowRight') {
     e.preventDefault();
     go(+1);
+    resetCountdown();
   }
   if (e.key === 'ArrowLeft') {
     e.preventDefault();
     go(-1);
+    resetCountdown();
   }
 }
 onMounted(() => window.addEventListener('keydown', onKeydown));
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown));
+
+/* --- NEW: 60s countdown + auto-advance, pause on hover --- */
+const COUNTDOWN_SECS = 60;
+const countdown = ref<number>(COUNTDOWN_SECS);
+const isPaused = ref<boolean>(false);
+let intervalId: number | undefined;
+
+const countdownDisplay = computed(() => {
+  const mm = Math.floor(countdown.value / 60);
+  const ss = countdown.value % 60;
+  const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+  return `${mm}:${pad(ss)}`;
+});
+
+function tick() {
+  if (isPaused.value) return;
+  if (countdown.value > 0) {
+    countdown.value -= 1;
+  } else {
+    go(+1);
+    resetCountdown();
+  }
+}
+
+function startTimer() {
+  stopTimer();
+  intervalId = window.setInterval(tick, 1000);
+}
+
+function stopTimer() {
+  if (intervalId !== undefined) {
+    clearInterval(intervalId);
+    intervalId = undefined;
+  }
+}
+
+function resetCountdown() {
+  countdown.value = COUNTDOWN_SECS;
+}
+
+function pauseTimer() {
+  isPaused.value = true;
+}
+
+function resumeTimer() {
+  isPaused.value = false;
+}
+
+onMounted(() => {
+  if (!showSlide.value) startTimer();
+});
+
+onBeforeUnmount(() => {
+  stopTimer();
+});
+
+// Start/stop the timer when the intro screen is shown/hidden
+watch(showSlide, (v) => {
+  if (v) {
+    stopTimer();
+  } else {
+    resetCountdown();
+    startTimer();
+  }
+});
+
+// Also reset countdown whenever the active slide changes (e.g., via arrows)
+watch(active, () => {
+  resetCountdown();
+});
 </script>
 
 <style scoped>
@@ -247,6 +295,22 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown));
   transition: opacity 0.25s ease;
 }
 
+/* countdown badge */
+.nc-countdown {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  padding: 6px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(4px);
+  pointer-events: none; /* avoid stealing hover */
+}
+
 /* hero overlay grid: left | center | right (text only in sides) */
 .nc-hero {
   --side: clamp(140px, 22vw, 320px); /* fallback */
@@ -299,7 +363,7 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown));
   font-family: var(--font-Inconsolata, sans-serif);
   display: block;
   padding-left: 1.2em;
-  position: relative;
+  overflow-y: auto;
 }
 .nc-desc br + br {
   display: none;
@@ -370,10 +434,6 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown));
 .nav-center {
   left: 50%;
   transform: translateX(-50%);
-}
-
-.love-btn {
-  color: red;
 }
 
 .nc-carousel:hover .nav-btn,

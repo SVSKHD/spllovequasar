@@ -13,7 +13,7 @@
       <VerticleTabsComponent
         v-model="verticleTab"
         :items="verticleTabs"
-        :height="'800px'"
+        :height="'900px'"
         :split-percent="24"
       />
     </template>
@@ -53,6 +53,10 @@ import picChild from 'assets/splvlovevc/splchild.png';
 import picchildhittu from 'assets/splvlovevc/hitchildhood.png';
 import spltogether from 'assets/splvlovevc/spltogther.png';
 import splflaunt from 'assets/splvlovevc/splfalunt.png';
+import splDate1 from 'assets/splvlovevc/spldate1.png';
+import splcute from 'assets/splvlovevc/splcute1.png';
+import hitchild from 'assets/splvlovevc/hitchild1.png';
+import hitborn from 'assets/splvlovevc/hitbornbaby.png';
 
 const tab = ref('timeline');
 const tabs = [
@@ -123,6 +127,53 @@ const events = [
 
 const slides: CarouselSlide[] = [
   {
+    image: picChild,
+    name: 'finally when did i fall ❤️ for u..?',
+    caption:
+      'Finally, I wonder—when did I truly fall? Maybe it was back in third standard, the very first time I kissed you when we were alone in that little room above the stairs. That was the moment I started loving you, and that love has never left me.',
+  },
+  {
+    image: splDate1,
+    name: 'Our First Date 🔥😍🥰',
+    caption:
+      'Our first date was like a dream ✨. I remember the way you smiled at me 😊, and how my heart raced 💓. We went to that cozy little Dosa Coffee café ☕🥞, and everything felt perfect 💖. I knew from that moment that you were someone so hot 🔥 and so cute 🥰. Well… I didn’t propose to you then 💍, so give me a second chance to propose to you now, my Cheri ❤️😘.',
+  },
+
+  {
+    image: splcute,
+    name: 'Cuteness Overloaded 🥰✨',
+    caption:
+      'I always see you as my cutie, my Cheri, my baby 💖. To me, you’re so precious—I want to carry you, feed you, protect you like the most fragile yet most valuable part of my life. Come to daddy 😘… he’s craving your presence and ready to love you so deeply and wholeheartedly that you’ll forget every sorrow and only crave being in his arms again ❤️🔥.',
+  },
+
+  {
+    image: picchildhittu,
+    name: 'Will This Child Always Stay Cute for You?',
+    caption:
+      'Why would a child ever be angry with his mother? I’ve missed you since my childhood, and now you’re slowly, steadily becoming my everything. I love how you take control over me—so effortlessly, without me even realizing it. This kid has always craved your kisses, your hugs, your love, and your pampering. Yes, he’s made mistakes, but he loves you deeply and is changing for you. So please… don’t push him away, don’t fight with him. Even if he slips up sometimes, all he really wants is to stay close to you—and to remain that same cute child in your eyes, always.',
+  },
+  {
+    image: hitborn,
+    name: 'The Child Missed U.. 👶❤️',
+    caption:
+      'Well, you were not born yet, but he was already waiting for you. You once asked me to become a child so you could love me from the very start—so here I am, starting to love you quickly, craving you like a hunger that never ends. And if I’m this child to you… will you feed me, nurture me, and love me that way too? 💕',
+  },
+
+  {
+    image: hitchild,
+    name: 'My Childhood Memories with U 🧒💞',
+    caption:
+      'I still remember those childhood days when I used to kiss you so many times 😘, and even when I got caught, I still couldn’t stop 🙈. Even now, I find myself kissing you again and again 💋. I controlled myself so much whenever I saw you, thinking you never felt anything for me 💔. But this love has always been there, and it always will be—it comes out only with you ❤️. \n\nNow I’m out of feed time, Cherie 😜… a little naughtiness towards you 💕—kissing you, hugging you 🤗. We used to swing together 🪁… will you swing with me again? 🎶 Will you travel with me again? 🌍 Not just regularly, but truly, deeply… come here 🥰. I will protect you from every evil eye 🧿. Come to me, hug me tight 🤗, and hold my hand forever, my Cherie 🤝❤️.',
+  },
+
+  {
+    image: spltogether,
+    name: 'Together EveryTime',
+    caption:
+      'In this journey of love, I want us to be together forever. Through every challenge, every joy, and every moment, let’s hold on to each other tightly. You are my everything, and I can’t imagine my life without you by my side.',
+  },
+
+  {
     image: picAngry,
     name: 'I am Sorry',
     caption:
@@ -164,21 +215,10 @@ const slides: CarouselSlide[] = [
     caption:
       'I love the way you kiss me, the way you pull me close, the way you stay near and even feed me—you are perfect, my love. You are exactly how I had always imagined. For so long, I thought you never loved me, that you had nothing for me… but when I realized the truth, I found myself crying every day. All I want now is to live my life with you—if you agree, I will be the happiest. And if not, then at least let me live a part of my life with you. We can be such a beautiful couple—I will protect you from every evil eye and work for all your needs, my love. Please… live with me.',
   },
-  {
-    image: picChild,
-    name: 'finally when did i fall ❤️ for u..?',
-    caption:
-      'Finally, I wonder—when did I truly fall? Maybe it was back in third standard, the very first time I kissed you when we were alone in that little room above the stairs. That was the moment I started loving you, and that love has never left me.',
-  },
-  {
-    image: picchildhittu,
-    name: 'Will This Child Always Stay Cute for You?',
-    caption:
-      'Why would a child ever be angry with his mother? I’ve missed you since my childhood, and now you’re slowly, steadily becoming my everything. I love how you take control over me—so effortlessly, without me even realizing it. This kid has always craved your kisses, your hugs, your love, and your pampering. Yes, he’s made mistakes, but he loves you deeply and is changing for you. So please… don’t push him away, don’t fight with him. Even if he slips up sometimes, all he really wants is to stay close to you—and to remain that same cute child in your eyes, always.',
-  },
+
   {
     image: spltogether,
-    name: 'Together Forever',
+    name: 'Together EveryTime',
     caption:
       'In this journey of love, I want us to be together forever. Through every challenge, every joy, and every moment, let’s hold on to each other tightly. You are my everything, and I can’t imagine my life without you by my side.',
   },
@@ -186,7 +226,7 @@ const slides: CarouselSlide[] = [
     image: splflaunt,
     name: 'My Hot Cheri 😘',
     caption:
-      'I love flaunting our love to the world. Every moment spent with you is a treasure, and I want everyone to see how beautiful our bond is. Let’s create memories that we can proudly share, showcasing the depth of our connection.',
+      'Stop there… stop being so hot 😍. You’ve always been hot in my eyes. From childhood itself, every time I saw you, I couldn’t resist kissing you, and you’d pull me in so easily. I’d try to cover it up with a serious face, but with you, I was always different—playful, a little naughty in a way I never was with anyone else. Don’t say I was like that with everyone, because I wasn’t. I never kissed anyone on my own… only you, my Cheri ❤️.',
   },
 ];
 

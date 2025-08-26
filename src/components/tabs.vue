@@ -1,9 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-toolbar flat dense class="text-black">
-      <q-btn dense class="text-black" flat icon="eva-home" />
-
-      <!-- Middle area expands; tabs are centered inside it -->
+      <q-btn dense class="text-black" flat icon="eva-home" @click="handleInitialTab" />
       <q-toolbar-title class="row justify-center items-center q-ma-none">
         <q-tabs v-model="tab" shrink>
           <q-tab
@@ -16,7 +14,7 @@
         </q-tabs>
       </q-toolbar-title>
 
-      <q-btn dense  class="text-red" flat icon="eva-log-out" @click="handleLogout" />
+      <q-btn dense class="text-red" flat icon="eva-log-out" @click="handleLogout" />
     </q-toolbar>
 
     <q-card dense flat class="q-mt-md">
@@ -36,37 +34,38 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue';
 
-type TabDef = { name: string; label: string; icon?: string }
-const props = defineProps<{ tabs: TabDef[] }>()
-const tab = ref("")
+type TabDef = { name: string; label: string; icon?: string };
+const props = defineProps<{ tabs: TabDef[] }>();
+const tab = ref('');
 
-
-
-const resumeTabs = () =>{
-    const activeTab = localStorage.getItem('activeTab')
-    if (activeTab) {
-        tab.value = activeTab
-    }else {
-        tab.value = props.tabs?.[0]?.name || ''
-    }
-}
+const resumeTabs = () => {
+  const activeTab = localStorage.getItem('activeTab');
+  if (activeTab) {
+    tab.value = activeTab;
+  } else {
+    tab.value = props.tabs?.[0]?.name || '';
+  }
+};
 
 onMounted(() => {
-  resumeTabs()
-})
+  resumeTabs();
+});
 
-const handleLogout = () =>{
-    localStorage.removeItem('login')
-}
+const handleInitialTab = () => {
+  tab.value = props.tabs[0]?.name || '';
+  localStorage.setItem('activeTab', tab.value);
+};
+
+const handleLogout = () => {
+  localStorage.removeItem('login');
+};
 
 const handleTab = (name: string) => {
-  localStorage.setItem('activeTab', name)
-}
-
+  localStorage.setItem('activeTab', name);
+};
 </script>
 
 <style scoped>

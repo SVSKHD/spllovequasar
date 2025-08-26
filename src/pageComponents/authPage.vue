@@ -46,14 +46,20 @@
 
                 <q-btn
                   color="primary"
-                  class="q-mt-md auth-btn-text"
+                  class="q-mt-md auth-btn-text auth-glass-btn"
                   rounded
                   :label="buttonLabel"
                   type="submit"
                   unelevated
                 />
                 <q-separator class="q-mb-md q-mt-md" />
-                <q-btn color="teal" class="full-width" icon="eva-google-outline" />
+                <q-btn
+                  class="auth-btn-text auth-glass-btn full-width"
+                  flat
+                  icon="eva-google-outline"
+                  @click="handleLoginWithGoogle"
+                  :loading="loadingGoogle"
+                />
               </q-form>
             </q-card-section>
           </q-card>
@@ -66,6 +72,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { loginWithGoogle } from '../firebase/firebase';
 
 type Bubble = {
   id: number;
@@ -87,6 +94,8 @@ const props = defineProps<{
   inputLabel?: string;
   colors?: string[];
 }>();
+
+console.log('env', import.meta.env);
 
 const router = useRouter();
 
@@ -188,6 +197,36 @@ async function handleSubmit() {
     console.log(e);
   }
 }
+
+const loadingGoogle = ref(false);
+const handleLoginWithGoogle = () => {
+  loadingGoogle.value = true;
+  loginWithGoogle()
+    .then((user) => {
+      console.log('Logged in user:', user?.email);
+      const userDataObj: { login: boolean; spoorthy: boolean; hithesh: boolean; time: number } = {
+        login: true,
+        spoorthy: false,
+        hithesh: false,
+        time: Date.now(),
+      };
+      if (user?.email == '8svskhd@gmail.com') {
+        userDataObj.hithesh = true;
+        // Redirect to Hithesh's page
+        void router.push('/hithesh');
+      } else if (user?.email == 'bhavyaspoorthy12345@gmail.com') {
+        userDataObj.spoorthy = true;
+        // Redirect to Bhavya's page
+        void router.push('/spoorthy');
+      }
+      localStorage.setItem('login', JSON.stringify(userDataObj));
+      loadingGoogle.value = false;
+    })
+    .catch((error) => {
+      console.error('Login failed:', error);
+      loadingGoogle.value = false;
+    });
+};
 
 // Hearts spawn
 onMounted(() => {
